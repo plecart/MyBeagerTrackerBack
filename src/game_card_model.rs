@@ -9,6 +9,12 @@ pub enum Role {
     Initiateur
 }
 
+impl GameCard {
+    pub fn set_id(&mut self, new_id: Option<i32>) {
+        self.id = new_id;
+    }
+}
+
 #[derive(Clone, Serialize, Deserialize)]
 pub struct GameCard {
     id: Option<i32>,
