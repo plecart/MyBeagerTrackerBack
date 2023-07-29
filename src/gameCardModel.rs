@@ -1,5 +1,8 @@
+use serde::{Deserialize, Serialize};
+
 // Structure de la carte répertoriant le les données de ma partie
-enum Role {
+#[derive(Clone, Serialize, Deserialize)]
+pub enum Role {
     Controleur,
     Duelliste,
     Sentinelle,
@@ -7,11 +10,11 @@ enum Role {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
-struct Card {
+pub struct GameCard {
     id: Option<i32>,
-    isVictory: Bool,
-    isCompetitive: Bool, // Un Enum serait aurait été plus juste ici
-    characterName: String,
+    is_victory: bool,
+    is_competitive: bool, // Un Enum serait aurait été plus juste ici
+    character_name: String,
     kda: [i32; 3],
     role: Role,
     comment: String,
