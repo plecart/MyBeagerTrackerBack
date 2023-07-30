@@ -2,63 +2,32 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Serialize, Deserialize)]
 pub enum Outcome {
-    Victoire,
-    Défaite,
-    Egalité,
-    Annulé
+    victoire, defaite, egalite, annule
 }
 
 #[derive(Clone, Copy, Serialize, Deserialize)]
 pub enum GameType {
-    NonClassé,
-    Compétition,
-    Vélocité,
-    SpikeRush,
-    CombatAMort,
-    Intensification,
-    CombatAMortPartEquipe,
-    PartiePersonnnalisé
+    nonClasse, competition, velocite, spikeRush, combatAMort,
+    intensification, combatAMorPartEquipe, partiePersonnalisee
 }
 
 #[derive(Clone, Copy, Serialize, Deserialize)]
 pub enum Character {
-    Astra,
-    Breach,
-    Brimstone,
-    Chamber,
-    Cypher,
-    Deadlock,
-    Fade,
-    Gekko,
-    Harbor,
-    Jett,
-    KayO,
-    Killjoy,
-    Neon,
-    Omen,
-    Pheonix,
-    Raze,
-    Reyna,
-    Sage,
-    Syke,
-    Sova,
-    Viper,
-    Yoru
+    astra, breach, brimstone, chamber, cypher, deadlock, fade,
+    gekko, harbor, jett, kayo, killjoy, neon, omen,
+    pheonix, raze, reyna, sage, syke, sova, viper, yoru
 }
 
 #[derive(Clone, Copy, Serialize, Deserialize)]
 pub enum Role {
-    Controleur,
-    Duelliste,
-    Sentinelle,
-    Initiateur
+    controleur, duelliste, sentinelle, initiateur
 }
 
 // Fonction getter/setter
 impl GameCard {
-    //pub fn get_id(&mut self) { return self.id; }
     pub fn get_id(&self) -> Option<i32> { return self.id; }
     pub fn get_outcome(&self) -> Outcome { return self.outcome; }
+    pub fn get_date(&self) -> &String { return &self.date; }
     pub fn get_game_type(&self) -> GameType { return self.game_type; }
     pub fn get_character(&self) -> Character { return self.character; }
     pub fn get_kda(&self) -> [i32; 3] { return self.kda; }
@@ -67,6 +36,7 @@ impl GameCard {
 
     pub fn set_id(&mut self, new_id: Option<i32>) { self.id = new_id; }
     pub fn set_outcome(&mut self, outcome: Outcome) { self.outcome = outcome; }
+    pub fn set_date(&mut self, new_date: String) { self.date = new_date; }
     pub fn set_game_type(&mut self, game_type: GameType) { self.game_type = game_type; }
     pub fn set_character(&mut self, character: Character) { self.character = character; }
     pub fn set_kda(&mut self, kda: [i32; 3]) { self.kda = kda; }
@@ -79,6 +49,7 @@ impl GameCard {
 pub struct GameCard {
     id: Option<i32>,
     outcome: Outcome,
+    date: String, //Devrait être une date
     game_type: GameType,
     character: Character,
     kda: [i32; 3],

@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
 mod game_card_model;
 use crate::game_card_model::GameCard;
+use chrono::{NaiveDate, Utc};
 
 // Initalisation du state
 #[derive(Clone, Serialize, Deserialize)]
@@ -38,10 +39,9 @@ async fn create_game_card(data: web::Data<Arc<Mutex<AppState>>>, new_game_card: 
 
 // Route pour modifier une carte
 #[put("/gameCards/{game_card_id}")]
-async fn update_card(data: web::Data<Arc<Mutex<AppState>>>, path: web::Path<i32>, updated_game_card: web::Json<GameCard>) -> HttpResponse {
+async fn update_game_card(data: web::Data<Arc<Mutex<AppState>>>, path: web::Path<i32>, updated_game_card: web::Json<GameCard>) -> HttpResponse {
     let game_card_id = path.0;
     let mut state = data.lock().unwrap();
-   // print(game_card.get_id());
     if let Some(index) = state.game_cards.iter().position(|game_card| game_card.get_id() == Some(game_card_id)) {
         if let Some(game_card) = state.game_cards.get_mut(index) {
             let updated_data = updated_game_card.into_inner();
@@ -61,7 +61,7 @@ async fn update_card(data: web::Data<Arc<Mutex<AppState>>>, path: web::Path<i32>
 }
 
 #[delete("/gameCards/{game_card_id}")]
-async fn delete_card(data: web::Data<Arc<Mutex<AppState>>>, path: web::Path<i32>) -> HttpResponse {
+async fn delete_game_card(data: web::Data<Arc<Mutex<AppState>>>, path: web::Path<i32>) -> HttpResponse {
     let game_card_id = path.0;
     let mut state = data.lock().unwrap();
     if let Some(index) = state.game_cards.iter().position(|card| card.get_id() == Some(game_card_id)) {
@@ -86,8 +86,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(app_state.clone()))
             .service(get_all_game_cards)
             .service(create_game_card)
-            .service(update_card)
-            .service(delete_card)
+            .service(update_game_card)
+            .service(delete_game_card)
     })
     .bind("127.0.0.1:4242")?
     .run()
